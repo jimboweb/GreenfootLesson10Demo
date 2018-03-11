@@ -8,12 +8,17 @@ import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
  */
 public class Player extends Actor
 {
+    int length;
     int speed = 2;
     class Direction {
         public static final int UP = 270;
         public static final int DOWN = 90;
         public static final int LEFT = 180;
         public static final int RIGHT = 0;
+    }
+    
+    public Player(){
+        length = getImage().getWidth();
     }
     /**
      * Act - do whatever the Player wants to do. This method is called whenever
@@ -42,7 +47,12 @@ public class Player extends Actor
         int direction = getRotation();
         int changeX = getChangeX(direction);
         int changeY = getChangeY(direction);
-        setLocation(currentX + changeX,currentY + changeY);
+        int adjustChangeX = adjustOffset(changeX);
+        int adjustChangeY = adjustOffset(changeY);
+        Actor obstacle = getOneObjectAtOffset(adjustChangeX, adjustChangeY, Obstacle.class);
+        if(obstacle==null){
+            setLocation(currentX + changeX,currentY + changeY);
+        }
     }
     
     private int getChangeX(int direction){
@@ -65,4 +75,8 @@ public class Player extends Actor
         return 0;
     }
     
+    private int adjustOffset(int offset){
+        int sign = (int)Math.signum(offset);
+        return offset + sign * (length/2);
+    }
 }

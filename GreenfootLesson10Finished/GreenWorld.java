@@ -32,5 +32,7 @@ public class GreenWorld extends World
     {
         Player player = new Player();
         addObject(player,309,198);
+        Obstacle obstacle = new Obstacle();
+        addObject(obstacle,406,202);
     }
 }
